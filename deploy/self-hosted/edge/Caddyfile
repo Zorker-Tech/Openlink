@@ -1,0 +1,36 @@
+{
+	admin off
+	servers {
+		client_ip_headers X-Forwarded-For X-Real-IP
+	}
+}
+
+{$OPENLINK_EDGE_ADDRESS} {
+	encode zstd gzip
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+
+	request_body {
+		max_size 64MB
+	}
+
+	@runtimeGateway path /v1/browser/gateway/*
+	handle @runtimeGateway {
+		reverse_proxy 127.0.0.1:43121
+	}
+
+	# Tenant-facing ZOKERBASE APIs share the product origin. Administrative
+	# database ports and Studio remain private to the host/control plane.
+	@zokerbaseApi path /auth/* /rest/* /storage/* /realtime/*
+	handle @zokerbaseApi {
+		reverse_proxy 127.0.0.1:8000
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:3000
+	}
+}

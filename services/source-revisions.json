@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "services": {
+    "pi": {
+      "path": "services/pi",
+      "upstream": "https://git.haokir/hydite/openlink/pi",
+      "sourceCommit": "a79b22622a4def33465a7a16b6c7040c394b76f0"
+    },
+    "opensandbox": {
+      "path": "services/opensandbox",
+      "upstream": "https://git.haokir/hydite/openlink/opensandbox",
+      "sourceCommit": "f2d110800b90c4f1160a420b5210cf658205d4b7"
+    },
+    "sandbox-runtime": {
+      "path": "services/sandbox-runtime",
+      "upstream": "https://git.haokir/hydite/openlink/sandbox-runtime",
+      "sourceCommit": "4d1a5f1bbec01ddf6f591dae9b3437cc04e56c82",
+      "openlinkPatches": [
+        "Remove the upstream package-local Husky prepare hook: vendored runtimes are not nested Git repositories and file-dependency installation must be non-interactive on every host."
+      ]
+    },
+    "code-server": {
+      "path": "services/code-server",
+      "upstream": "https://github.com/coder/code-server.git",
+      "sourceCommit": "313bf0359b4d391ba18f1fa131aad8a583bc2919"
+    },
+    "zero": {
+      "path": "services/zero",
+      "upstream": "vendored://zokerbase-zero",
+      "sourceCommit": "3bbb90088899bd25e06d9eb7b0b77ee89803e090"
+    },
+    "linux": {
+      "path": "services/linux",
+      "upstream": "https://github.com/containers/podman.git",
+      "sourceCommit": "a31c37153678ed76036d3784c10b5dd16ca28c7f",
+      "openlinkPatches": [
+        "Honor XDG_CONFIG_HOME in the vendored Windows homedir adapter so Project VM configuration and disks remain in the product-owned runtime root."
+      ]
+    }
+  }
+}
